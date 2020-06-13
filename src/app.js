@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Home from './screens/containers/home';
-import Main from './screens/containers/main';
-import Register from './screens/containers/register';
+import Main from './screens/main';
+import Register from './screens/register';
 
 
 class AppLayout extends Component {
