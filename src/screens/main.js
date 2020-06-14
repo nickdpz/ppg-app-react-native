@@ -1,23 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
 import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    Text,
-  } from 'react-native';
+  SafeAreaView,
+  ScrollView,
+  Text,
+  Button
+} from 'react-native';
 
 class Main extends Component {
+  constructor(props) {
+    super(props)
+  }
   componentDidMount() {
 
   }
+
   render() {
     return (
-        <>
+      <>
         <SafeAreaView>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic">
-            <Text>Hola2 {this.props.user}</Text>
+            <Text>Hola {this.props.userName}</Text>
+            <Button
+              title="Reset navigation state"
+              onPress={() =>
+                this.props.navigation.dispatch(
+                  CommonActions.reset({
+                    index: 1,
+                    routes: [
+                      {
+                        name: 'Main',
+                      },
+                      { name: 'Register' },
+                    ],
+                  })
+                )
+              }
+            />
           </ScrollView>
         </SafeAreaView>
       </>
@@ -25,9 +46,10 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state) => {
   return {
-    user: state.user
+    userName: state.userName,
+    userAge: state.userAge
   }
 }
 

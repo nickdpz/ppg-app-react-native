@@ -17,14 +17,14 @@ import {
 } from 'react-native';
 import styles from '../assets/styles/register.style'
 import { connect } from 'react-redux'
-
+import { CommonActions } from '@react-navigation/native';
 
 class Register extends React.Component {
     constructor(props) {
+        super(props)
         state = {
             name: null,
             age: null,
-            navigation: props.navigation
         }
     }
 
@@ -34,20 +34,15 @@ class Register extends React.Component {
 
     handleAge = (event) => {
         this.setState({ age: parseInt(event.nativeEvent.text) });
-        this.state.navigation.navigate('Main')
     }
     handleSubmit = () => {
         const name = this.state.name;
         const age = this.state.age;
-        this.props.dispatch({
-            type: 'SET_USER',
-            payload: {
-                user: {
-                    name,
-                    age
-                },
-            }
-        })
+        this.props.setUser(name, age);
+        this.props.navigation.dispatch(
+            CommonActions.navigate({
+                name: 'Main'
+            }));
     }
 
     render() {
@@ -87,8 +82,16 @@ class Register extends React.Component {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        increaseCounter: () => dispatch({ type: 'INCREASE_COUNTER' }),
-        decreaseCounter: () => dispatch({ type: 'DECREASE_COUNTER' }),
+        setUser: (name, age) => {
+            dispatch({
+                type: 'SET_USER',
+                payload: {
+                    userName: name,
+                    userAge: age,
+                    initialRoute: 'Main',
+                }
+            })
+        },
     }
 }
 

@@ -26,7 +26,7 @@ export default StyleSheet.create({
     },
     containerForm: {
         width: windowWidth * 0.86,
-        height: windowHeight * 0.5,
+        height: windowHeight * 0.4,
         flexDirection: 'column',
         justifyContent: 'space-around',
         alignItems: 'center',
