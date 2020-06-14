@@ -14,7 +14,7 @@ function AppLayout(props) {
         initialRouteName={props.initialRoute}
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#f4511e',
+            backgroundColor: '#F2695C',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {

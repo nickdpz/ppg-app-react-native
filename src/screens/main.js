@@ -11,6 +11,19 @@ import {
 class Main extends Component {
   constructor(props) {
     super(props)
+    if(props.route.params.origin==="register"){
+      props.navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            {
+              name: 'Main',
+              params: { origin: 'main', key: props.route.params.key }
+            }
+          ],
+        })
+      )
+    }
   }
   componentDidMount() {
 
@@ -23,22 +36,6 @@ class Main extends Component {
           <ScrollView
             contentInsetAdjustmentBehavior="automatic">
             <Text>Hola {this.props.userName}</Text>
-            <Button
-              title="Reset navigation state"
-              onPress={() =>
-                this.props.navigation.dispatch(
-                  CommonActions.reset({
-                    index: 1,
-                    routes: [
-                      {
-                        name: 'Main',
-                      },
-                      { name: 'Register' },
-                    ],
-                  })
-                )
-              }
-            />
           </ScrollView>
         </SafeAreaView>
       </>

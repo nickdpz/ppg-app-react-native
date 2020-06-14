@@ -20,29 +20,42 @@ import { connect } from 'react-redux'
 import { CommonActions } from '@react-navigation/native';
 
 class Register extends React.Component {
-    constructor(props) {
-        super(props)
-        state = {
-            name: null,
-            age: null,
-        }
+    state = {
+        name: null,
+        age: null,
+        isValidName: false,
+        isValidAge: false,
     }
-
     handleName = (event) => {
         this.setState({ name: event.nativeEvent.text });
+        if ((/^([A-Z\u00d1]{1,1}[a-záéíóú\u00f1]{2,12})[\s]?([A-Z\u00d1]?[a-z\u00d1]{2,12})?$/).test(event.nativeEvent.text)) {
+            this.setState({ isValidName: true })
+        } else {
+            this.setState({ isValidName: false })
+        }
     }
 
     handleAge = (event) => {
         this.setState({ age: parseInt(event.nativeEvent.text) });
+        if ((/^([0-9]{1,2})$/).test(event.nativeEvent.text)) {
+            this.setState({ isValidAge: true })
+        } else {
+            this.setState({ isValidAge: false })
+        }
     }
     handleSubmit = () => {
         const name = this.state.name;
         const age = this.state.age;
-        this.props.setUser(name, age);
-        this.props.navigation.dispatch(
-            CommonActions.navigate({
-                name: 'Main'
-            }));
+        if (this.state.isValidAge && this.state.isValidName) {
+            this.props.setUser(name, age);
+            this.props.navigation.dispatch(
+                CommonActions.navigate({
+                    name: 'Main',
+                    params: {
+                        origin: 'register',
+                    }
+                }));
+        }
     }
 
     render() {
@@ -58,8 +71,6 @@ class Register extends React.Component {
                         placeholder="Nombre"
                         style={styles.inputText}
                         onChange={this.handleName}
-                        value={this.data}
-                        require
                     />
                     <TextInput
                         placeholder="Edad"
@@ -69,8 +80,10 @@ class Register extends React.Component {
                         keyboardType={'numeric'}
                         maxLength={2}
                         onChange={this.handleAge}
-                        require
                     />
+                    {(!this.state.isValidAge || !this.state.isValidName)&& (this.state.age !== null) && (
+                        <Text> Datos Invalidos</Text>
+                    )}
                     <TouchableOpacity onPress={this.handleSubmit}>
                         <Text style={styles.buttonForm}>
                             Ingresar</Text>
