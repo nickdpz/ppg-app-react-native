@@ -1,24 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Main from './screens/main';
 import Register from './screens/register';
 
+const Stack = createStackNavigator();
 
-class AppLayout extends Component {
-  render() {
-    if (this.props.user) {
-      return <Main />
-    }else{
-      return <Register/>
-    }
-  }
+function AppLayout() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Main">
+        <Stack.Screen name="Main" component={Main} />
+        <Stack.Screen name="Register" component={Register} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-  }
-}
-
-export default connect(mapStateToProps)(AppLayout);
+export default AppLayout;

@@ -20,9 +20,12 @@ import { connect } from 'react-redux'
 
 
 class Register extends React.Component {
-    state = {
-        name: null,
-        age: null,
+    constructor(props) {
+        state = {
+            name: null,
+            age: null,
+            navigation: props.navigation
+        }
     }
 
     handleName = (event) => {
@@ -31,6 +34,7 @@ class Register extends React.Component {
 
     handleAge = (event) => {
         this.setState({ age: parseInt(event.nativeEvent.text) });
+        this.state.navigation.navigate('Main')
     }
     handleSubmit = () => {
         const name = this.state.name;
