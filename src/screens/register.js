@@ -12,7 +12,8 @@ import {
     Button,
     Alert,
     TouchableOpacity,
-    View
+    View,
+    Image
 } from 'react-native';
 import styles from '../assets/styles/register.style'
 import { connect } from 'react-redux'
@@ -20,36 +21,60 @@ import { connect } from 'react-redux'
 
 class Register extends React.Component {
     state = {
-        data: {},
+        name: null,
+        age: null,
     }
 
-    handleChange = (text) => {
-        this.setState({ data: text });
+    handleName = (event) => {
+        this.setState({ name: event.nativeEvent.text });
     }
 
-    handleSubmit() {
-        alert('A name was submitted: ' + this.state.value);
+    handleAge = (event) => {
+        this.setState({ age: parseInt(event.nativeEvent.text) });
+    }
+    handleSubmit = () => {
+        const name = this.state.name;
+        const age = this.state.age;
+        this.props.dispatch({
+            type: 'SET_USER',
+            payload: {
+                user: {
+                    name,
+                    age
+                },
+            }
+        })
     }
 
     render() {
         return (
             <SafeAreaView style={styles.containerGlobal}>
+                <Image
+                    source={require('../assets/images/ecg.png')}
+                    style={styles.iconECG}
+                />
                 <View style={styles.containerForm}>
-                    <Text style={styles.labelForm}>Nombre</Text>
                     <TextInput
+                        name="name"
+                        placeholder="Nombre"
                         style={styles.inputText}
-                        onChangeText={this.handleChange}
+                        onChange={this.handleName}
                         value={this.data}
+                        require
                     />
-                    <Text style={styles.labelForm}>Edad</Text>
                     <TextInput
+                        placeholder="Edad"
+                        name="age"
+                        underlineColorAndroid='transparent'
                         style={styles.inputText}
-                        onChangeText={this.handleChange}
-                        value={this.data}
+                        keyboardType={'numeric'}
+                        maxLength={2}
+                        onChange={this.handleAge}
+                        require
                     />
-                    <TouchableOpacity onPress={() => Alert.alert(this.state.data)}>
+                    <TouchableOpacity onPress={this.handleSubmit}>
                         <Text style={styles.buttonForm}>
-                            button name</Text>
+                            Ingresar</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
